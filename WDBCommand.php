@@ -14,6 +14,7 @@ namespace bitmaster\db;
 require_once "WDBDataReader.php";
 
 use bitmaster\db\exception\WDBPDOException;
+use bitmaster\db\exception\WDBException;
 use bitmaster\db\WDBDataReader;
 use \PDO;
 
@@ -51,25 +52,6 @@ use \PDO;
  *     ->where('id=:id', array(':id'=>1))
  *     ->query();
  * </pre>
- *
- * @property string $_text SQL выражение, которое должно быть выполнено.
- * @property CDbConnection $connection соединение с бд, асоциированное с этой объектом.
- * @property PDOStatement $pdoStatement The underlying PDOStatement for this command
- * It could be null if the statement is not prepared yet.
- * @property string $select The SELECT part (without 'SELECT') in the query.
- * @property boolean $distinct A value indicating whether SELECT DISTINCT should be used.
- * @property string $from The FROM part (without 'FROM' ) in the query.
- * @property string $where The WHERE part (without 'WHERE' ) in the query.
- * @property mixed $join The join part in the query. This can be an array representing
- * multiple join fragments, or a string representing a single join fragment.
- * Each join fragment will contain the proper join operator (e.g. LEFT JOIN).
- * @property string $group The GROUP BY part (without 'GROUP BY' ) in the query.
- * @property string $having The HAVING part (without 'HAVING' ) in the query.
- * @property string $order The ORDER BY part (without 'ORDER BY' ) in the query.
- * @property string $limit The LIMIT part (without 'LIMIT' ) in the query.
- * @property string $offset The OFFSET part (without 'OFFSET' ) in the query.
- * @property mixed $union The UNION part (without 'UNION' ) in the query.
- * This can be either a string or an array representing multiple union parts.
  *
  * @author WonderTalik <wondertalik@gmail.com>
  * @package bitmaster.db
@@ -368,7 +350,7 @@ class WDBCommand {
      * операторы запроса: {@link select}, {@link distinct}, {@link from},
      * {@link where}, {@link join}, {@link group}, {@link having}, {@link order},
      * {@link limit}, {@link offset} and {@link union}.
-     * @throws CDbException if "from" key is not present in given query parameter
+     * @throws WDBException if "from" key is not present in given query parameter
      * @return string SQL выраение
      * @since 0.0.1
      */
@@ -379,8 +361,8 @@ class WDBCommand {
 
         if ( !empty($query['from']) )
             $sql .= "\nFROM " . $query['from'];
-//        else
-//            throw new WDBPDOException(Yii::t('yii','The DB query must contain the "from" portion.'));
+        else
+            throw new WDBException('The DB query must contain the "from" portion.');
 
 //        if(!empty($query['join']))
 //            $sql.="\n".(is_array($query['join']) ? implode("\n",$query['join']) : $query['join']);
@@ -469,7 +451,7 @@ class WDBCommand {
      * Sets the SELECT part of the query with the DISTINCT flag turned on.
      * This is the same as {@link select} except that the DISTINCT flag is turned on.
      * @param mixed $columns the columns to be selected. See {@link select} for more details.
-     * @return CDbCommand the command object itself
+     * @return WDBCommand the command object itself
      * @since 0.0.1
      */
     public function selectDistinct($columns = '*') {
@@ -636,7 +618,7 @@ class WDBCommand {
      * Columns can be specified in either a string (e.g. "id, name") or an array (e.g. array('id', 'name')).
      * The method will automatically quote the column names unless a column contains some parenthesis
      * (which means the column contains a DB expression).
-     * @return CDbCommand the command object itself
+     * @return WDBCommand the command object itself
      * @since 0.0.1
      */
     public function group($columns) {
@@ -670,13 +652,13 @@ class WDBCommand {
      * @param mixed $conditions the conditions to be put after HAVING.
      * Please refer to {@link where} on how to specify conditions.
      * @param array $params the parameters (name=>value) to be bound to the query
-     * @return CDbCommand the command object itself
+     * @return WDBCommand the command object itself
      * @since 0.0.1
      */
     public function having($conditions, $params = array()) {
         $this->_query['having'] = $this->processConditions($conditions);
         foreach ($params as $name => $value)
-            $this->params[$name] = $value;
+            $this->_params[$name] = $value;
         return $this;
     }
 
@@ -761,7 +743,7 @@ class WDBCommand {
     /**
      * Sets the OFFSET part of the query.
      * @param integer $offset the offset
-     * @return CDbCommand the command object itself
+     * @return WDBCommand the command object itself
      * @since 0.0.1
      */
     public function offset($offset) {
@@ -806,11 +788,10 @@ class WDBCommand {
     /**
      * Генерирует условия, которые долны быть в WHERE части запроса
      * @param $conditions условия запроса после оператора WHERE
-     * @param array $params
-     * @return string сформированная строка условий
+     * @return string|bool сформированная строка условий, false ошибка генерации условий
      * @since 0.0.1
      */
-    public function processConditions($conditions, $params = array()) {
+    public function processConditions($conditions) {
 
         if ( !is_array($conditions) )
             return $conditions;
@@ -866,6 +847,7 @@ class WDBCommand {
                 $expressions[] = $column . ' ' . $operator . ' ' . $this->_connection->quoteValue($value);
             return implode($andor, $expressions);
         }
+        return false;
     }
 
 }

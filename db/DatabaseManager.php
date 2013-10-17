@@ -11,6 +11,7 @@
 namespace bitmaster\db;
 
 use bitmaster\db\settings\DBSettings;
+use \PDO;
 /**
  * Наследники этого класса обеспечивают управление соединением с конкретным типом бд
  * @package bitmaster\db

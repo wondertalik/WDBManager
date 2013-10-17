@@ -12,6 +12,7 @@
 namespace bitmaster\db;
 
 use \PDO;
+use \PDOStatement;
 
 /**
  * WDBDataReader предоставляет методы для обработки данных, полученных
@@ -54,7 +55,7 @@ class WDBDataReader {
     /**
      * Извлечение следующей строки из результирующего набора. Возвращает массив,
      * индексированный именами столбцов результирующего набора
-     * @return array|false текущая строка, false если больше нет доступных строк
+     * @return array|bool текущая строка, false если больше нет доступных строк
      * @see http://ua1.php.net/manual/ru/pdostatement.fetch.php
      * @since 0.0.1
      */
@@ -66,7 +67,7 @@ class WDBDataReader {
     /**
      * Извлечение следующей строки из результирующего набора. Возвращает массив,
      * индексированный номерами столбцов (начиная с 0)
-     * @return array|false текущая строка, false если больше нет доступных строк
+     * @return array|bool текущая строка, false если больше нет доступных строк
      * @see http://ua1.php.net/manual/ru/pdostatement.fetch.php
      * @since 0.0.1
      */
@@ -78,7 +79,7 @@ class WDBDataReader {
     /**
      * Извлечение следующей строки из результирующего набора. Возвращает массив,
      * индексированный именами столбцов результирующего набора, а также их номерами (начиная с 0)
-     * @return array|false текущая строка, false если больше нет доступных строк
+     * @return array|bool текущая строка, false если больше нет доступных строк
      * @see http://ua1.php.net/manual/ru/pdostatement.fetch.php
      * @since 0.0.1
      */
@@ -90,7 +91,7 @@ class WDBDataReader {
     /**
      * Возвращает данные одного столбца следующей строки результирующего набора.
      * @param integer $columnIndex zero-based column index
-     * @return mixed|false значение поля текущей строки, false если больше нет доступных строк
+     * @return mixed|bool значение поля текущей строки, false если больше нет доступных строк
      * @see http://ua1.php.net/manual/ru/pdostatement.fetchcolumn.php
      * @since 0.0.1
      */

@@ -110,7 +110,7 @@ class WDBConnection implements IWDBList {
      * @since 0.0.1
      */
     public function setActive($value) {
-        if ( $value != $this->getActive()) {
+        if ( $value != $this->getActive() ) {
             if ( $value )
                 $this->open();
             else
@@ -123,7 +123,7 @@ class WDBConnection implements IWDBList {
      * @throws WDBPDOException
      * @since 0.0.1
      */
-    protected  function open() {
+    protected function open() {
         if ( $this->_databaseManager == null ) {
             $this->_databaseManager = $this->createPdoInstance();
             $this->_active = true;
@@ -135,32 +135,32 @@ class WDBConnection implements IWDBList {
      * Закрывает соединение с бд
      * @since 0.0.1
      */
-    protected  function close() {
+    protected function close() {
         $this->_active = false;
         $this->_databaseManager = null;
     }
 
     /**
      * Метод-фабрика. В зависимости от выбранного типа бд, создает требуемый менеджер бд.
-     * @return DatabaseConnection менеджер соединения с бд
+     * @return DatabaseConnection|null менеджер соединения с бд
      * @throws WDBPDOException
      * @since 0.0.1
      */
     protected function createPdoInstance() {
+        $connection = null;
         try {
 
             switch ($this->dbType) {
                 case self::MYSQL:
                     $manager = new WDBMySQLConnectionManager();
+                    $connection = $manager->getDatabase($this->_settings);
                     break;
             }
-
-            return $manager->getDatabase($this->_settings);
-
         } catch (WDBPDOException $e) {
             echo $e->getMessage();
         }
 
+        return $connection;
     }
 
     /**

@@ -19,7 +19,7 @@ use \PDOException;
  * @package bitmaster\db\exception
  * @version 0.0.1
  */
-class WDBPDOException extends \Exception {
+class WDBPDOException extends Exception {
 
     /**
      * Конструктор

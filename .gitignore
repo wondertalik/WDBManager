@@ -16,6 +16,11 @@ local.properties
 .settings/
 .loadpath
 
+################
+##PphStorm
+################
+.idea/
+
 # External tool builders
 .externalToolBuilders/
 

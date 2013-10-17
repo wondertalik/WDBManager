@@ -20,6 +20,7 @@ local.properties
 ##PphStorm
 ################
 .idea/
+test.php
 
 # External tool builders
 .externalToolBuilders/

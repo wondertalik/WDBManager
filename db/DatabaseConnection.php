@@ -41,13 +41,6 @@ abstract class DatabaseConnection {
     private $_pdo;
 
     /**
-     * @var string строга формата dsn
-     * @link http://php.net/manual/ru/pdo.construct.php
-     */
-    private $_dsn;
-
-
-    /**
      * Инициализирует настройки, устанавливает соединение
      * Базовый конструктор, инициализирует настройки, формирует строку dsn и устанавливает соединение
      * @param DBSettings $settings данные для подключения к бд {@link http://php.net}
@@ -55,17 +48,6 @@ abstract class DatabaseConnection {
      */
     public function __construct(DBSettings $settings) {
         $this->_settings = $settings;
-        $this->_dsn = "mysql:host=" . $settings->getProperty(DBSettings::DBHOST) . ";dbname=" . $settings->getProperty(DBSettings::DBNAME);
-    }
-
-    /**
-     * Возвращает строку dsn
-     * @return string  полная строка dsn
-     * @link http://php.net/manual/ru/pdo.construct.php
-     * @since 0.0.1
-     */
-    final public function getDsn() {
-        return $this->_dsn;
     }
 
     /**
@@ -94,11 +76,9 @@ abstract class DatabaseConnection {
      * @since 0.0.1
      */
     public function createPDO() {
-        $user = $this->getSettings()->getProperty(DBSettings::DBUSER);
-        $pass = $this->getSettings()->getProperty(DBSettings::DBPASS);
-
+        $settings = $this->getSettings();
         try {
-            $this->_pdo = new PDO($this->getDsn(), $user, $pass);
+            $this->_pdo = new PDO($settings->getDsn(), $settings->getUserName(), $settings->getUserPassword());
             $this->setDefaultPDOAttributes();
         } catch (PDOException $e) {
             throw new WDBPDOException($e);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Этот файл содержит WDBConnection class.
  *
@@ -152,8 +153,12 @@ class WDBConnection implements IWDBList {
 
             switch ($this->dbType) {
                 case self::MYSQL:
+                    $settings = $this->_settings;
+                    //формируем dsn
+                    $settings->setDsn("mysql:host=" . $settings->getDbHost() . ";dbname=" . $settings->getDbName());
+
                     $manager = new WDBMySQLConnectionManager();
-                    $connection = $manager->getDatabase($this->_settings);
+                    $connection = $manager->getDatabase($settings);
                     break;
             }
         } catch (WDBPDOException $e) {

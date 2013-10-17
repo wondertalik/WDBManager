@@ -31,7 +31,7 @@ abstract class WSettings {
      * @param mixed $value значение в массиве настроек
      * @since 0.0.1
      */
-    public function setProperty($key, $value) {
+    protected function setProperty($key, $value) {
         $this->settings[$key] = $value;
     }
 
@@ -41,7 +41,7 @@ abstract class WSettings {
      * @return mixed
      * @since 0.0.1
      */
-    public function getProperty($key) {
+    protected function getProperty($key) {
         return $this->settings[$key];
     }
 

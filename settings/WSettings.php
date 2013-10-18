@@ -38,11 +38,12 @@ abstract class WSettings {
     /**
      * Возвращает настройку из $settings по ключу.
      * @param $key ключ в массиве настроек
-     * @return mixed
+     * @param null @defaultValue значение по умолчанию
+     * @return mixed|null
      * @since 0.0.1
      */
-    protected function getProperty($key) {
-        return $this->settings[$key];
+    protected function getProperty($key, $defaultValue = null) {
+        return isset($this->settings[$key]) ? $this->settings[$key] : $defaultValue;
     }
 
 }

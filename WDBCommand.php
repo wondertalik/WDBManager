@@ -12,6 +12,8 @@
 namespace bitmaster\db;
 
 require_once "WDBDataReader.php";
+require_once "exception/WDBException.php";
+require_once "exception/WDBPDOException.php";
 
 use bitmaster\db\exception\WDBPDOException;
 use bitmaster\db\exception\WDBException;

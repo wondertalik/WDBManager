@@ -12,12 +12,9 @@ namespace bitmaster\db;
 
 require_once 'WDBCommand.php';
 require_once 'db/IWDBList.php';
-require_once 'schema/mysql/WMysqlSchema.php';
-require_once 'settings/DBSettings.php';
 require_once 'db/mysql/WDBMySQLConnectionManager.php';
+require_once 'schema/mysql/WMysqlSchema.php';
 
-use bitmaster\db\exception\WDBPDOException;
-use bitmaster\db\schema\WDBSchema;
 use bitmaster\db\settings\DBSettings;
 use bitmaster\db\mysql\WDBMySQLConnectionManager;
 use bitmaster\db\schema\mysql\WMysqlSchema;

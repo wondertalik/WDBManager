@@ -11,6 +11,7 @@
 namespace bitmaster\db\mysql;
 
 require_once __DIR__ . '/../DatabaseManager.php';
+require_once __DIR__ . '/../../settings/DBSettings.php';
 require_once 'WDBMySQLConnection.php';
 
 use bitmaster\db\DatabaseManager;

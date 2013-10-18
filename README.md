@@ -7,6 +7,8 @@ namespace test;
 require_once __DIR__ . '/WDBConnection.php';
 
 use bitmaster\db;
+use bitmaster\db\exception\WDBException;
+use bitmaster\db\exception\WDBPDOException;
 
 try {
 
